@@ -1,0 +1,25 @@
+services:
+  secure_auth_api_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: secure_auth_api_app
+    ports:
+      - "80:8000"
+    volumes:
+      - ./:/secure_auth_api_app
+    env_file:
+      - .env
+
+  secure_auth_api_db:
+    container_name: secure_auth_api_db
+    image: postgres
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '${POSTGRES_PORT}:5432'
